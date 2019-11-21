@@ -1,0 +1,74 @@
+---
+title: HW5
+output: html_document
+---
+
+> 1. Carry out a principal component analysis on the engineer data as follows. 
+> Ignore groups and use a correlation matrix based on all 40 observations.
+
+
+Setup
+``` {r}
+data = read.csv("pilot.dat", header=F, sep="")
+colnames(data) = list("group", "y1", "y2", "y3", "y4", "y5", "y6")
+```
+
+Run PCA
+``` {r}
+pc_data = princomp(data[2:7], cor=TRUE)
+summary(pc_data, loadings=TRUE)
+screeplot(pc_data, type="lines")
+```
+
+We can see that top four componet contains large variance, and
+top three component have variance greater than 1.
+
+Also, we can explain the pca data by cutoff
+``` {r}
+summary(pc_data, loadings=TRUE, cutoff=.5)
+```
+In above data, we can see the pc1 is mainly effect by y4 and y6.
+And pc2 to pc4 are composed by only one axis.
+
+Then, transform the original data by top 3 loadings of pca.
+``` {r}
+data_3pc = scale(data[2:7]) %*% pc_data$loadings[, 1:3]
+data_3pc
+```
+
+> 2. Use the engineer data. Combine the two groups into a single sample. 
+> (a)	Using a scree plot, the number of eigenvalues greater than 1, and the percentages, is there a clear choice of m?
+> (b)	Extract three factors by the principal component method and carry out a varimax rotation.
+> (c)	Extract three factors by the principal factor method and carry out a varimax rotation. 
+> (d)	Compare the results of parts (b) and (c)
+
+## By principal component
+``` {r}
+library(psych)
+data[,2:7] = scale(data[,2:7])
+data_cov = cov(data[,2:7])
+pfa = principal(data_cov, nfactors=3, rotate="varimax")
+pfa
+```
+
+We can do the same analysis as pca above.
+
+``` {r}
+pfa$loadings
+```
+
+We can found out
+
+* y3 and y4 and -y5 are correlated.
+* y1 and y6 are correlated in pc2.
+* y2 and -y5 are correlated in pc3.
+
+## By principle factor
+``` {r}
+data_fa = fa(data_cov, nfactors=3, rotate="varimax", fm="pa", max.iter=10000)
+data_fa
+data_fa$loadings
+```
+
+We found the factor by principle factor are not normalized.
+However, it explain much more variance than principle component factor.
