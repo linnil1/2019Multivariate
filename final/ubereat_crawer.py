@@ -32,7 +32,7 @@ def getMenu():
                                          "slugName": location})).json()
     json.dump(req, open(f"data/raw_menu_{location}_{category}.txt", "w"))
     stores = [store for _, store in req['data']['storesMap'].items()]
-    json.dump({'stores': stores}, open(f"data/raw_menu_{location}_{category}.txt", "w"))
+    json.dump({'stores': stores}, open(f"data/menu_{location}_{category}.txt", "w"))
     # pprint(stores)
 
 

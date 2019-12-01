@@ -11,5 +11,6 @@ summary(fit3)
 summary(fit4)
 
 # print interval
-print(predict(fit3, newdata=data.frame(X1=0.33, X2=45.5, X3=220,375, X4=1.01), interval = "confidence", level = 0.95))
+# print(predict(fit3, newdata=data.frame(X1=0.33, X2=45.5, X3=220,375, X4=1.01), interval = "confidence", level = 0.95))
+print(predict(fit3, newdata=data.frame(X1=0.33, X2=45.5, X3=220,375, X4=1.01), interval = "prediction", level = 0.95))
 
