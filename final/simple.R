@@ -22,6 +22,14 @@ merge_store = merge(food, as.data.frame(store_num), by="postcode")
 png("result/store_number_vs_food_precentage.png")
 plot(food_num ~ 飲食費.含家外食物.占消費支出比率..., data=merge_store)
 
+# with food rate
+store_rate = aggregate(data, by=list(postcode=data$postcode), FUN=mean)
+store_rate = store_rate[, -2]
+merge_store = merge(food, as.data.frame(store_rate), by="postcode")
+png("result/rate_vs_food_precentage.png")
+plot(rate ~ 飲食費.含家外食物.占消費支出比率..., data=merge_store)
+text(rate ~ 飲食費.含家外食物.占消費支出比率..., labels=rownames(district), data=merge_store, cex=0.9, font=2)
+
 # plot
 png("result/uber_rate.png", width=640, height=640)
 data_rate = subset(data, rate_num > 0)
