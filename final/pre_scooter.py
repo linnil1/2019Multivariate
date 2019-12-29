@@ -19,4 +19,4 @@ for i in range(len(data)):
         data.at[i, "postcode"] = post["code"]
 
 print(data)
-data.to_csv("scooter.csv", index=False)
+data.to_csv("data/scooter.csv", index=False)

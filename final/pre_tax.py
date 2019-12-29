@@ -22,4 +22,4 @@ data2 = getData("download/Tax_NewTaipei.csv", "新北市")
 data = data1.append(data2)
 
 print(data)
-data.to_csv("tax.csv", index=False)
+data.to_csv("data/tax.csv", index=False)

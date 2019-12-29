@@ -1,8 +1,8 @@
 import pandas as pd
 
-postcode = pd.read_csv("postcode.csv")
+postcode = pd.read_csv("data/postcode.csv")
 
-data = pd.read_csv("飲食支出比.csv", encoding="big5")
+data = pd.read_csv("download/飲食支出比.csv", encoding="big5")
 col = list(data.columns)
 col[0] = 'location'
 data.columns = col
@@ -16,4 +16,4 @@ for i in range(len(data)):
     if len(post):
         data.at[i, "postcode"] = post["code"]
 
-data.to_csv("food_percentage.csv", index=False)
+data.to_csv("data/food_percentage.csv", index=False)
