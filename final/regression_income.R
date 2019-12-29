@@ -13,3 +13,7 @@ store_merge = merge(data, tax, by="postcode")
 fit = lm(food_mean ~ 綜合所得總額, data=store_merge)
 summary(fit)
 pureErrorAnova(fit)
+
+png("result/Regression_income_mean.png")
+plot(store_merge[, "綜合所得總額"], store_merge[, "food_mean"])
+abline(fit)
