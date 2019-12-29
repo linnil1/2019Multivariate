@@ -8,9 +8,10 @@ food_med=median(DATA$food_mean)
 rate_med=median(DATA$rate)
 store$class=NA
 store$class[store$food_mean>=food_med & store$rate>=rate_med]="high"
+store$class[store$food_mean< food_med & store$rate< rate_med]="low"
 store$class[store$food_mean< food_med & store$rate>=rate_med]="cp"
-store$class[store$food_mean>=food_med & store$rate< rate_med]="low"
-store$class[store$food_mean< food_med & store$rate< rate_med]="bad"
+store$class[store$food_mean>=food_med & store$rate< rate_med]="bad"
+
 write.csv(store,"data/uber_all4class.csv")
 
 png("result/4class_median.png")
