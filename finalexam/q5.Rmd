@@ -1,0 +1,18 @@
+---
+title: Final Exam
+output: html_document
+---
+
+# Final Exam
+
+## Q5 Explain
+
+### (a) MDS differ from Cluster and Factor Analysis
+
+Multidimension scaling try to restore the coordinations from distance data. One of the advantage is that it can reduce the dimensions of data(Similar to FA), the other advantage is restoring corrdinate with the rank of distance not the real value of it's distance, this is a little like clustering.
+
+### (b) Clustering vs Factor Analysis
+
+Cluster is trying to group the data by it's distance usually.
+
+Factor analysis is to find the latent feature of the data which show the relationship of them.

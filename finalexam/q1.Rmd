@@ -1,0 +1,63 @@
+---
+title: Final Exam
+output: html_document
+---
+
+# Final Exam
+
+## Q1 Grade data Analysis
+``` {R}
+data = read.csv("./GRADES.dat", header=T, sep="")
+head(data)
+```
+
+
+### (a) Clustering
+
+Using K-mean to cluster
+``` {R}
+cl = kmeans(data, 3)
+cl
+```
+
+And show the first two axis of PCA to evaluate the cluster.
+``` {r}
+pc_data = princomp(data ,cor=TRUE)
+new_data = t(t(pc_data$loadings[, 1:2]) %*% t(as.matrix(data)))
+plot(new_data,col=cl$cluster)
+points(cl$centers, col=1:2, pch=8, cex=2)
+```
+
+And there mean performance in each cluster
+```
+cl$centers
+```
+
+### (b) Factor Analysis
+
+Perform FA
+
+``` {r}
+library(psych)
+data = read.csv("./GRADES.dat", header=T, sep="")
+head(data)
+data_cor = head(data)
+fa_data = principal(data_cor, nfactors=4, rotate='varimax')
+print(fa_data$loading, cutoff=.5)
+```
+
+You can see the result.
+
+Lab score has high correlated to HW, exam1 and exam2.
+
+Popquiz is related to exam1 and finalexam. Also in other component, it related to exam2.
+
+And in the scree plot, we can see choosing three factors is enough.
+
+``` {r}
+a = colSums(fa_data$loadings ^2)
+a$sdev = colSums(fa_data$loadings ^2)
+screeplot(a)
+abline(h=1, col="red")
+```
+

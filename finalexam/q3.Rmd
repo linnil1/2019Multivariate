@@ -1,0 +1,65 @@
+---
+title: Final Exam
+output: html_document
+---
+
+# Final Exam
+
+## Q3 paper strength analysis
+
+``` {R}
+data = read.csv("./strength.dat", header=T, sep="\t")
+head(data)
+X = data[, c("X1", "X2", "X3", "X4")]
+Y = data[, c("Y1", "Y2", "Y3", "Y4")]
+```
+
+### (a) Canonical analysis
+``` {R}
+library(CCA)
+result <-cc(X, Y)
+barplot(result$cor)
+# plt.cc(result)
+"Correlation"
+result$cor
+"X loadings"
+result$xcoef
+"Y loadings"
+result$ycoef
+```
+
+We can find first two axis are good enough(have higher correlations).
+
+### (b) Explain first variates of cca
+
+Try to rotate the axis by first loadings.
+``` {R}
+nx = as.matrix(X) %*% result$xcoef[, 1]
+ny = as.matrix(Y) %*% result$ycoef[, 1]
+n = data.frame(nx, ny)
+```
+
+Then, simply feed in to linear regression.
+
+``` {R}
+fit = lm(ny ~ nx, n)
+summary(fit)
+plot(nx, ny)
+abline(fit)
+```
+
+Where it's $R^2$ is 0.8389, both p values of the slope and intercept are close to 0, so I think is a good measurment.
+
+or you can evalute by testing
+``` {R}
+n = nrow(data)
+dimx = ncol(X)
+dimy = ncol(Y)
+# Bartlett's test
+test =  -( n - 0.5 * (dimx + dimy + 3) ) * log(1 - result$cor[1])
+"P value"
+test_p = pchisq(test, df=dimx + dimy - 1 + 1, lower.tail=FALSE)
+test_p
+```
+
+Which get the same result as above that p value is close to 0.

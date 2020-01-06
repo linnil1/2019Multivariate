@@ -1,0 +1,34 @@
+---
+title: Final Exam
+output: html_document
+---
+
+## Q2 Grade data Analysis
+``` {R}
+data = read.csv("./GRADES.dat", header=T, sep="")
+head(data)
+d = dist(data)
+```
+
+### (a)(b) Clustering and find the minial
+
+Using hclust to cluster to two groups by each method.
+``` {R}
+method = c("ward.D", "ward.D2", "single", "complete", "average", "median", "mcquitty", "centroid")
+
+for (i in 1:length(method)) {
+    dc = hclust(d, method=method[i])
+    memb = cutree(dc, k = 2)
+    d1 = colMeans(data[memb == 1,])
+    d2 = colMeans(data[memb == 2,])
+    dd = t(data.frame(d1, d2))
+    dd = data.frame(dd, len=c(sum(memb == 1), sum(memb == 2)))
+    print(method[i])
+    print(dd)
+}
+```
+
+The result show that `ward.D` and `mcquitty` make the minial students to fail by the distance of those 6 dimensions. It only fail 13 students.
+
+Or you use `single` to cut, only 1 students will fail, however his/her lab and homework is somewhat better than another groups.
+
